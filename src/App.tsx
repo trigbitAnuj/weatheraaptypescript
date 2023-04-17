@@ -1,26 +1,110 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Suspense, useState } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+import WeatherDetails from './components/WeatherDetails';
+import UseFetch, { Error } from './components/Usefetch';
+
+
+type ErrorProps={
+  error:Error
 }
 
-export default App;
+
+
+const App=() =>{
+  const [city, setCity] = useState("Chandigarh");
+  const [changecity, setchangecity] = useState("")
+   const {data,loading,error} = UseFetch(city);
+     
+
+
+
+    const handleSearchCity=(city:string)=>{
+      setCity(city);
+      setchangecity("")
+    }
+    const handleChangeCity=(e: React.ChangeEvent<HTMLInputElement>)=>{
+      setchangecity(e.target.value)
+
+    }
+
+
+  return(
+  <>
+
+        <div className="   my-8 ">
+            <section  className='flex justify-center'>
+            <input
+                  className="border p-1 border-black"
+                  type="text"
+                  value={changecity}
+                  placeholder="Search City"
+                  onChange={(e)=>{handleChangeCity(e)}}
+                  
+                />
+                <button
+                  onClick={() => {
+                  handleSearchCity(changecity)
+                  }}
+                  className="mx-2 border border-black p-1"
+                >
+                  Search
+                </button>
+            </section>
+                
+
+                {loading && (
+            <div className=" flex justify-center items-center my-10">
+              <svg
+                className="animate-spin  h-1/5 w-1/5 text-red-700"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </div>
+          )}
+           
+          {error?<ErrorComponent error={error}/>:null}
+
+          {data? <WeatherDetails data={data}/>:
+         
+         <h1 className='"  text-4xl  text-center xl my-9"'>No data found,Search again</h1>
+                
+          }
+         
+              </div>
+
+              
+                
+                
+             
+
+  </>
+  )
+}
+
+export default App
+
+
+const ErrorComponent=({error}:ErrorProps)=>{
+  return(
+    <>
+    <h1 className="text-center text-4xl my-9">{error.message}</h1>
+    </>
+    
+  )
+  }
