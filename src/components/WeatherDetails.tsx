@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { Favourite } from "../App";
 
 
 
@@ -11,11 +12,14 @@ export type Data={
 
 }
 
+
 type Props={
-    data:Data
+    data:Data;
+    favouriteCity:Favourite[]
+    setfavouriteCity:React.Dispatch<React.SetStateAction<Favourite[]>>
 }
 
-const WeatherDetails = ({ data}:Props) => {
+const WeatherDetails = ({ data,favouriteCity,setfavouriteCity}:Props) => {
    
  
 
@@ -28,7 +32,17 @@ const WeatherDetails = ({ data}:Props) => {
   const [{ description, icon }] = weather ?? [{}];
 
   
+  const handleFavouriteCity=()=>{
+    setfavouriteCity([...favouriteCity,{name,id,temp,temp_max,temp_min}])
+       
+  }
 
+  const removefavouriteCity=(id:number)=>{
+    setfavouriteCity((favouriteCity) =>
+      favouriteCity.filter((city) => city.id !== id)
+    );
+
+  }
  
 
   
@@ -39,6 +53,12 @@ const WeatherDetails = ({ data}:Props) => {
           className="flex flex-col justify-center items-center my-4"
           
         >
+          <button
+            className="border p-1 bg-red-400"
+            onClick={handleFavouriteCity}
+          >
+            Add to favourite
+          </button>
          
            
           <h1 className="city text-2xl">{name}</h1>
@@ -53,6 +73,37 @@ const WeatherDetails = ({ data}:Props) => {
             1
           )}° ${temp_min?.toFixed(1)}°`}</p>
         </section>
+
+        <div className="flex flex-col items-center">
+                <h1 className="text-3xl my-2">Favourite Cities</h1>
+                <ul>
+                  {favouriteCity?.length
+                    ? favouriteCity.map((city) => (
+                        <li
+                          key={city.id}
+                          className=" grid grid-cols-[200px_auto_auto_auto] place-content-center place-items-center my-3 "
+                        >
+                          <span>{city.name}</span>
+                          <span className="temp text-3xl mx-3">{`${city.temp?.toFixed(
+                            1
+                          )}°`}</span>
+                          <span className="min-max-temp mx-3">{`${city.temp_max?.toFixed(
+                            1
+                          )}° ${city.temp_min?.toFixed(1)}°`}</span>
+
+                          <button
+                            className="mx-4 border bg-red-400 text-white rounded-md"
+                            onClick={() => {
+                              removefavouriteCity(city.id);
+                            }}
+                          >
+                            remove
+                          </button>
+                        </li>
+                      ))
+                    : null}
+                </ul>
+              </div>
      
     </>
   );
