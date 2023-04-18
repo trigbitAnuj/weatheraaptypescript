@@ -1,33 +1,54 @@
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 import './App.css'
 import WeatherDetails from './components/WeatherDetails';
 import UseFetch, { Error } from './components/Usefetch';
+import {  getCitiesFromLocalStorage, getCity } from './utils';
 
 
 type ErrorProps={
   error:Error
 }
 
+export type Favourite={
+  name:string;
+  id:number;
+  temp:number;
+  temp_max:number;
+  temp_min:number;
+
+}
 
 
 const App=() =>{
-  const [city, setCity] = useState("Chandigarh");
+  const [city, setCity] = useState<string>(getCity());
   const [changecity, setchangecity] = useState("")
    const {data,loading,error} = UseFetch(city);
+   const [favouriteCity, setfavouriteCity] = useState <Favourite[]>(getCitiesFromLocalStorage());
      
 
 
 
     const handleSearchCity=(city:string)=>{
       setCity(city);
+        if(city.length>=3){
+          localStorage.setItem("city", city);
+
+        }
+
+      
       setchangecity("")
+      
     }
+
     const handleChangeCity=(e: React.ChangeEvent<HTMLInputElement>)=>{
       setchangecity(e.target.value)
 
     }
 
+    useEffect(()=>{
+      localStorage.setItem("favouriteCity", JSON.stringify(favouriteCity))
+    },[favouriteCity])
 
   return(
   <>
@@ -80,7 +101,7 @@ const App=() =>{
            
           {error?<ErrorComponent error={error}/>:null}
 
-          {data? <WeatherDetails data={data}/>:
+         {data? <WeatherDetails data={data} favouriteCity={favouriteCity} setfavouriteCity={setfavouriteCity}/>:
          
          <h1 className='"  text-4xl  text-center xl my-9"'>No data found,Search again</h1>
                 
