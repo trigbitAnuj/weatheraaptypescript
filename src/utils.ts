@@ -1,4 +1,5 @@
-import { Favourite } from "./App";
+import { Favourite } from "./model";
+
 
 
 
@@ -11,8 +12,10 @@ export const getCity = ():string=> {
   
   
   export const getCitiesFromLocalStorage = ():Favourite[]=> {
-    const lists:Favourite[] = JSON.parse( localStorage.getItem("favouriteCity")|| '[]')
+    const list:Favourite[] = JSON.parse( localStorage.getItem("favouriteCity")|| '[]')
     
-        return lists;
+        return list;
     
   };
+
+
