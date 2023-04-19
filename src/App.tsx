@@ -2,22 +2,14 @@ import { Suspense, useEffect, useState } from 'react'
 
 import './App.css'
 import WeatherDetails from './components/WeatherDetails';
-import UseFetch, { Error } from './components/Usefetch';
+import UseFetch from './components/Usefetch';
 import {  getCitiesFromLocalStorage, getCity } from './utils';
+import { ErrorProps, Favourite } from './model';
 
 
-type ErrorProps={
-  error:Error
-}
 
-export type Favourite={
-  name:string;
-  id:number;
-  temp:number;
-  temp_max:number;
-  temp_min:number;
 
-}
+
 
 
 const App=() =>{

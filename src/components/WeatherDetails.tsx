@@ -1,23 +1,13 @@
-import { useContext, useEffect } from "react";
-import { Favourite } from "../App";
+import { Data, Props } from "../model";
 
 
 
-export type Data={
-    name:string;
-    id:number;
-    main:{temp:number,temp_min:number,temp_max:number}
-    weather:[{description:string, icon:string}]
 
 
-}
 
 
-type Props={
-    data:Data;
-    favouriteCity:Favourite[]
-    setfavouriteCity:React.Dispatch<React.SetStateAction<Favourite[]>>
-}
+
+
 
 const WeatherDetails = ({ data,favouriteCity,setfavouriteCity}:Props) => {
    

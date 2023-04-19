@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { Data } from "./WeatherDetails";
-export type Error={
-    message: string;
-  
-}
+import { Data, Error } from "../model";
+
+
 
 const UseFetch = (city:string) => {
   const [data, setData] = useState<Data|null>(null);
