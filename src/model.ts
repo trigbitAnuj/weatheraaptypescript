@@ -20,8 +20,8 @@ export type Favourite ={
 
 export type Props={
     data:Data;
-    favouriteCity:Favourite[]
-    setfavouriteCity:React.Dispatch<React.SetStateAction<Favourite[]>>
+    favCities:Favourite[]
+    setFavCities:React.Dispatch<React.SetStateAction<Favourite[]>>
 }
 
 export type Error={
