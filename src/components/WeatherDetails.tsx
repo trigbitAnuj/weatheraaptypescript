@@ -1,15 +1,7 @@
 import { Data, Props } from "../model";
 
 
-
-
-
-
-
-
-
-
-const WeatherDetails = ({ data,favouriteCity,setfavouriteCity}:Props) => {
+const WeatherDetails = ({ data,favCities,setFavCities}:Props) => {
    
  
 
@@ -22,20 +14,18 @@ const WeatherDetails = ({ data,favouriteCity,setfavouriteCity}:Props) => {
   const [{ description, icon }] = weather ?? [{}];
 
   
-  const handleFavouriteCity=()=>{
-    setfavouriteCity([...favouriteCity,{name,id,temp,temp_max,temp_min}])
+  const handleFavCities=()=>{
+    setFavCities([...favCities,{name,id,temp,temp_max,temp_min}])
        
   }
 
-  const removefavouriteCity=(id:number)=>{
-    setfavouriteCity((favouriteCity) =>
-      favouriteCity.filter((city) => city.id !== id)
+  const removeFavCities=(id:number)=>{
+    setFavCities((favCities) =>
+      favCities.filter((city) => city.id !== id)
     );
 
   }
  
-
-  
   return (
     <>
      
@@ -45,7 +35,7 @@ const WeatherDetails = ({ data,favouriteCity,setfavouriteCity}:Props) => {
         >
           <button
             className="border p-1 bg-red-400"
-            onClick={handleFavouriteCity}
+            onClick={handleFavCities}
           >
             Add to favourite
           </button>
@@ -67,8 +57,8 @@ const WeatherDetails = ({ data,favouriteCity,setfavouriteCity}:Props) => {
         <div className="flex flex-col items-center">
                 <h1 className="text-3xl my-2">Favourite Cities</h1>
                 <ul>
-                  {favouriteCity?.length
-                    ? favouriteCity.map((city) => (
+                  {favCities?.length
+                    ? favCities.map((city) => (
                         <li
                           key={city.id}
                           className=" grid grid-cols-[200px_auto_auto_auto] place-content-center place-items-center my-3 "
@@ -84,7 +74,7 @@ const WeatherDetails = ({ data,favouriteCity,setfavouriteCity}:Props) => {
                           <button
                             className="mx-4 border bg-red-400 text-white rounded-md"
                             onClick={() => {
-                              removefavouriteCity(city.id);
+                              removeFavCities(city.id);
                             }}
                           >
                             remove
