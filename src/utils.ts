@@ -4,9 +4,14 @@ import { Favourite } from "./model";
 
 
 export const getCity = ():string=> {
-    let city = localStorage.getItem("city")??"chandigarh"
+    let city = localStorage.getItem("city")||"chandigarh"
 
-    return city;
+    console.log(city)
+   return city
+
+
+
+
   };
 
   
