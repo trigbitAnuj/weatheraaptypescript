@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Data, Error } from "../model";
+import { Data } from "../model";
+
 
 
 
@@ -30,8 +31,9 @@ const UseFetch = (city:string) => {
         setData(resData);
         setLoading(false);
       } catch (error:any) {
+        console.log(error)
          setError(error)
-       
+    
         setLoading(false);
       }
     };
