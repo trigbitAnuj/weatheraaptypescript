@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 
 import './App.css'
 import WeatherDetails from './components/WeatherDetails';
@@ -12,35 +12,38 @@ import { ErrorProps, Favourite } from './model';
 
 
 
+
 const App=() =>{
   const [city, setCity] = useState<string>(getCity());
-  const [changecity, setchangecity] = useState("")
+  // const [changecity, setChangeCity] = useState("")
    const {data,loading,error} = UseFetch(city);
-   const [favouriteCity, setfavouriteCity] = useState <Favourite[]>(getCitiesFromLocalStorage());
+   const [favCities, setFavCities] = useState <Favourite[]>(getCitiesFromLocalStorage());
      
 
 
 
-    const handleSearchCity=(city:string)=>{
-      setCity(city);
-        if(city.length>=3){
-          localStorage.setItem("city", city);
-
-        }
-
+    // const handleSearchCity=(city:string)=>{
+    //   setCity(city);
+    
+    //       localStorage.setItem("city", city)
       
-      setchangecity("")
       
-    }
+      
+    // }
 
     const handleChangeCity=(e: React.ChangeEvent<HTMLInputElement>)=>{
-      setchangecity(e.target.value)
-
+      setTimeout(()=>{setCity(e.target.value)},1000)
+        
+        
+        
     }
+    
 
     useEffect(()=>{
-      localStorage.setItem("favouriteCity", JSON.stringify(favouriteCity))
-    },[favouriteCity])
+      localStorage.setItem("favCity", JSON.stringify(favCities))
+      localStorage.setItem("city", city)
+      console.log(city) 
+    },[favCities,city])
 
   return(
   <>
@@ -48,21 +51,21 @@ const App=() =>{
         <div className="   my-8 ">
             <section  className='flex justify-center'>
             <input
-                  className="border p-1 border-black"
-                  type="text"
-                  value={changecity}
+                  className="border p-2 text-xl border-black outline-none "
+                  type="search"
+                  
                   placeholder="Search City"
                   onChange={(e)=>{handleChangeCity(e)}}
                   
                 />
-                <button
-                  onClick={() => {
-                  handleSearchCity(changecity)
-                  }}
+                {/* <button
+                  // onClick={() => {
+                  // handleSearchCity(city)
+                  // }}
                   className="mx-2 border border-black p-1"
                 >
                   Search
-                </button>
+                </button> */}
             </section>
                 
 
@@ -93,7 +96,7 @@ const App=() =>{
            
           {error?<ErrorComponent error={error}/>:null}
 
-         {data? <WeatherDetails data={data} favouriteCity={favouriteCity} setfavouriteCity={setfavouriteCity}/>:
+         {data? <WeatherDetails data={data} favCities={favCities} setFavCities={setFavCities}/>:
          
          <h1 className='"  text-4xl  text-center xl my-9"'>No data found,Search again</h1>
                 
